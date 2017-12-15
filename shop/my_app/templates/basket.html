@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+    <div class="col-md-9">
+        {% if new_basket %}
+        <div>
+            <div class="lead"><center>You have following goods:</center></div>
+            <div class="row bg-primary text-white">
+                <div class="col-sm"></div>
+                <div class="col-sm">Product name</div>
+                <div class="col-sm">Price</div>
+                <div class="col-sm">Count</div>
+                <div class="col-sm">Summary</div>
+            </div>
+            {% for item in new_basket %}
+            <hr>
+            <div class="row">
+                <div class="col-sm"><a target="_blank" href="/item/{{item.id}}"><img class="animated jello" src="{% static "/media/" %}{{ item.image }}"  alt="{{ item.name }}"></a></div>
+                <div class="col-sm"><a target="_blank" href="/item/{{item.id}}">{{ item.item }}</a></div>
+                <div class="col-sm">{{ item.price }} RUB</div>
+                <div class="col-sm">{{item.count}}</div>
+                <div class="col-sm">{{item.summary}}  RUB</div>
+            </div>
+                {% endfor %}<hr>
+                <div class="row float-right">
+                    <div class="col-sm"><b>Summary price: {{total_price }} RUB</b></div>
+                    <div class="col-sm"><a class="btn btn-success animated fadeInRightBig" href="{% url 'buy' %}">Buy this!</a></div>
+                </div>
+                {% else %}
+                    <div class="alert alert-info" role="alert">Your basket is empty, try to buy something!</div>
+                {% endif %}
+            <a class="btn btn-info" href="{% url 'index' %}">Continue shopping</a>
+            <hr>
+        </div>
+        {% if new_basket %}
+        <div><a class="btn btn-warning" href="{% url 'del_all' %}">Clear basket</a></div>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

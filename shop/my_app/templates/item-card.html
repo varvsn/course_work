@@ -1,0 +1,14 @@
+{% load static %}
+<div class="col-md-4">
+    <div class="card"">
+        <div class="card-img-top"><a href="item/{{item.id}}">
+            <img src="/media/{{ item.image }}" alt="{{ item.name }}"></a>
+        </div>
+        <div class="card-block">
+            <h3 class="card-title"><a href="item/{{item.id}}">{{ item.name }}</a></h3>
+            <p class="card-text">Description: {{ item.description }}</p>
+            <p class="card-text">Price: {{ item.price }} RUB</p>
+            <a class="btn btn-primary btn-lg btn-block" href="add_to_basket/{{item.id}}">BUY</a>
+        </div>
+    </div><br>
+</div>

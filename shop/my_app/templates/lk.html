@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+    <div class="col-md-9">
+        <div>
+            <div class="lead"><center>This is your Personal page, {{user}}</center></div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-9">
+        <div class="text-primary">Your orders:</div>
+            {% for order in user_orders %}
+                <div class="row bg-primary text-white d-flex justify-content-center">Order N <b>{{order.id}}</b>, created at {{order.order_date}}</div>
+                    <div class="row text-muted">
+                        <div class="col-sm">Product name</div>
+                        <div class="col-sm">Price</div>
+                        <div class="col-sm">Count</div>
+                    </div>
+                    {% for item in order.orders_set.all %}
+                        <div class="row">
+                            <div class="col-sm"><a target="_blank" href="/item/{{item.item_id}}">{{item.item_name}}</a></div>
+                            <div class="col-sm">{{item.price}} RUB</div>
+                            <div class="col-sm">{{item.total_count}}</div>
+                        </div>
+                    {% endfor %}
+<hr>
+            {% endfor %}
+          </div>
+    </div>
+<div class="row">
+<a class="btn btn-info" href="{% url 'index' %}">Return to main page</a>
+</div>
+{% endblock %}
+
+
+
