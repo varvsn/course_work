@@ -13,10 +13,10 @@
         <p><span class="badge badge-default">Price:</span><span> {{ item.price }} RUB</span></p>
         
         <p class="badge badge-default">Additional images:</p>
-        <div class="d-flex flex-column bd-highlight mb-3">
-        <div class="p-2 bd-highlight"><img class="animated lightSpeedIn" src="/media/{{ item.image_add1 }}"></img></div>
-        <div class="p-2 bd-highlight"><img class="animated lightSpeedIn" src="/media/{{ item.image_add2 }}"></img></div>
-        <div class="p-2 bd-highlight"><img class="animated lightSpeedIn" src="/media/{{ item.image_add3 }}"></img></div>
+            <div class="d-flex flex-column bd-highlight mb-3">
+            <div class="p-2 bd-highlight"><img class="animated lightSpeedIn" src="/media/{{ item.image_add1 }}"></img></div>
+            <div class="p-2 bd-highlight"><img class="animated lightSpeedIn" src="/media/{{ item.image_add2 }}"></img></div>
+            <div class="p-2 bd-highlight"><img class="animated lightSpeedIn" src="/media/{{ item.image_add3 }}"></img></div>
         </div>
         <a class="btn btn-primary btn-lg btn-block" href="/add_to_basket/{{item.id}}">BUY</a>
         <a class="btn btn-info btn-lg btn-block" href="{% url 'index' %}">Return to SHOP</a>
