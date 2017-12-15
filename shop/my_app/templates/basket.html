@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+
 <div class="row">
     <div class="col-md-9">
         {% if new_basket %}
@@ -34,8 +35,33 @@
             <hr>
         </div>
         {% if new_basket %}
-        <div><a class="btn btn-warning" href="{% url 'del_all' %}">Clear basket</a></div>
+            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal">Clear basket</button>
         {% endif %}
     </div>
 </div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Achtung</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Do you really want clear basket?
+      </div>
+      <div class="modal-footer">
+        <div><a class="btn btn-warning" href="{% url 'del_all' %}">Yes</a></div>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 {% endblock content %}
