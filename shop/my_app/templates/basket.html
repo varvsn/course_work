@@ -20,7 +20,7 @@
                 <div class="col-sm"><a target="_blank" href="/item/{{item.id}}"><img class="animated jello" src="{% static "/media/" %}{{ item.image }}"  alt="{{ item.name }}"></a></div>
                 <div class="col-sm"><a target="_blank" href="/item/{{item.id}}">{{ item.item }}</a></div>
                 <div class="col-sm">{{ item.price }} RUB</div>
-                <div class="col-sm">{{item.count}}</div>
+                <div class="col-sm"><a href="/ajax_del_item/{{item.id}}">-</a>{{item.count}}<a href="/ajax_add_item/{{item.id}}">+</a></div>
                 <div class="col-sm">{{item.summary}}  RUB</div>
             </div>
                 {% endfor %}<hr>

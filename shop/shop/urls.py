@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.contrib.auth import views as auth_views
 
-from my_app.views import index, register, add_to_basket, checkout, buy, lk, view_item, del_all
+from my_app.views import index, register, add_to_basket, checkout, buy, lk, view_item, ajax_add_item, ajax_del_item,  del_all
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -27,6 +27,8 @@ urlpatterns = [
     url(r'^$', index, name='index'),
     url(r'^add_to_basket/(?P<item_id>[0-9]+)/', add_to_basket, name='add_to_basket'),
     url(r'^item/(?P<item_id>[0-9]+)/', view_item, name='view_item'),
+    url(r'^ajax_add_item/(?P<item_id>[0-9]+)/', ajax_add_item, name='ajax_add_item'),
+    url(r'^ajax_del_item/(?P<item_id>[0-9]+)/', ajax_del_item, name='ajax_del_item'),
     url(r'^del_all/', del_all, name='del_all'),
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$',auth_views.logout, name='logout'),

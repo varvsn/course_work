@@ -52,31 +52,33 @@ def add_to_basket(request, item_id):
         return render(request, 'flash_page.html')
 
 
-def checkout(request):
-    basket = request.session.get('basket', {})
-    items = Shop_Item.objects.filter(id__in=basket.keys())
-    new_basket = []
-    total_price = 0
-    for it in items:
-        total_price += basket[str(it.id)] * it.price
-        new_basket.append({
-                         'id': it.id,
-                         'item': it.name,
-                         'price': it.price,
-                         'image': str(it.image),
-                         'count': basket[str(it.id)],
-                         'summary': basket[str(it.id)] * it.price,
-                         })
-
-    #Save all data to next 'buy' step in session
-    request.session['total_price'] = total_price
-    request.session['checkout'] = new_basket
-
+def ajax_add_item(request, item_id):
+    construct_basket(request, item_id, '+')
     return render(request, 'basket.html', {
-                                  'new_basket': new_basket,
-                                  'total_count': count_items(basket),
-                                  'total_price': total_price,
-                                })
+                                  'new_basket': request.session['checkout'],
+                                  'total_count': count_items(request.session.get('basket', {})),
+                                  'total_price': request.session['total_price'],
+                                  })
+
+
+def ajax_del_item(request, item_id):
+    construct_basket(request, item_id, '-')
+    return render(request, 'basket.html', {
+                                  'new_basket': request.session['checkout'],
+                                  'total_count': count_items(request.session.get('basket', {})),
+                                  'total_price': request.session['total_price'],
+                                  })
+
+
+
+def checkout(request):
+    construct_basket(request)
+    return render(request, 'basket.html', {
+                                  'new_basket': request.session['checkout'],
+                                  'total_count': count_items(request.session.get('basket', {})),
+                                  'total_price': request.session['total_price'],
+                                  })
+
 
 
 def buy(request):
@@ -130,8 +132,6 @@ def view_item(request, item_id):
     basket = request.session.get('basket', {})
     item = Shop_Item.objects.get(pk=item_id)
     return render(request, 'item_details.html', {'item': item, 'total_count': count_items(basket)})
-    pass
-
 
 
 
@@ -139,4 +139,37 @@ def del_all(request):
     del request.session['basket']
     messages.warning(request, 'Your basket is empty now.')
     return render(request, 'flash_page.html', {'total_count': 0})
+
+
+def construct_basket(request, item_id=False, changing=False):
+    basket = request.session.get('basket', {})
+    if changing == '+':
+        basket[item_id] += 1
+    if changing == '-':
+        if basket[item_id] == 1:
+            del basket[item_id]
+        else:
+            basket[item_id] -= 1
+    items = Shop_Item.objects.filter(id__in=basket.keys())
+    new_basket = []
+    total_price = 0
+    for it in items:
+        total_price += basket[str(it.id)] * it.price
+        new_basket.append({
+                         'id': it.id,
+                         'item': it.name,
+                         'price': it.price,
+                         'image': str(it.image),
+                         'count': basket[str(it.id)],
+                         'summary': basket[str(it.id)] * it.price,
+                         })
+    #Save all data to next 'buy' step in session
+    request.session['total_price'] = total_price
+    request.session['checkout'] = new_basket
+
+
+
+
+
+
 

@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ly#9v-c@tfx$!54oleowj#gq-8r_$94-85mw2c8%t87fgw#g+^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.101.254', 'fors-shop.interaxions.ru']
+ALLOWED_HOSTS = ['192.168.101.254', 'fors-shop-test.interaxions.ru']
 
 #def show_toolbar(request):
 #    return True
@@ -140,7 +140,7 @@ MEDIA_ROOT = '/var/www/fors/course_work/shop/my_app/static/media/'
 
 #STATIC_URL = '/course_work/shop/my_app/static/'
 STATIC_URL = '/static/'
-STATIC_ROOT = '/var/www/fors/course_work/shop/my_app/static'
+STATIC_ROOT = '/var/www/fors/course_work-test/shop/my_app/static'
 
 LOGGING = {
     'version': 1,
