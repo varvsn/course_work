@@ -15,17 +15,23 @@
                 <div class="col-sm">Summary</div>
             </div>
             {% for item in new_basket %}
-            <hr>
-            <div class="row">
-                <div class="col-sm"><a target="_blank" href="/item/{{item.id}}"><img class="animated jello" src="{% static "/media/" %}{{ item.image }}"  alt="{{ item.name }}"></a></div>
-                <div class="col-sm"><a target="_blank" href="/item/{{item.id}}">{{ item.item }}</a></div>
-                <div class="col-sm">{{ item.price }} RUB</div>
-                <div class="col-sm"><a href="/ajax_del_item/{{item.id}}">-</a>{{item.count}}<a href="/ajax_add_item/{{item.id}}">+</a></div>
-                <div class="col-sm">{{item.summary}}  RUB</div>
+            <div class="basket-item">
+                <hr>
+                <div class="row">
+                    <div class="col-sm"><a target="_blank" href="/item/{{item.id}}"><img class="animated jello" src="{% static "/media/" %}{{ item.image }}"  alt="{{ item.name }}"></a></div>
+                    <div class="col-sm"><a target="_blank" href="/item/{{item.id}}">{{ item.item }}</a></div>
+                    <div class="col-sm">{{ item.price }} RUB</div>
+                    <div class="col-sm">
+                        <a href="/ajax_del_item/{{item.id}}" class="del_good" data-item="{{item.id}}">-</a>
+                        <span class="i_count" data-item="{{item.id}}">{{item.count}}</span>
+                        <a href="/ajax_add_item/{{item.id}}" class="add_good" data-item="{{item.id}}">+</a>
+                    </div>
+                    <div class="col-sm"><span class="i_summary" data-item="{{item.id}}">{{item.summary}}</span>  RUB</div>
+                </div>
             </div>
                 {% endfor %}<hr>
                 <div class="row float-right">
-                    <div class="col-sm"><b>Summary price: {{total_price }} RUB</b></div>
+                    <div class="col-sm"><b>Summary price: <span class="basket_summary">{{total_price }}</span> RUB</b></div>
                     <div class="col-sm"><a class="btn btn-success animated fadeInRightBig" href="{% url 'buy' %}">Buy this!</a></div>
                 </div>
                 {% else %}
@@ -39,8 +45,6 @@
         {% endif %}
     </div>
 </div>
-
-
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -63,5 +67,30 @@
   </div>
 </div>
 
+<!-- change amount in basket with ajax -->
+<script>
+$(function() {
+    var bt = $('.basket_total'),
+    sm = $('.basket_summary')
+
+    $('.del_good, .add_good').on('click', function(e) {
+        e.preventDefault();
+        var that = this
+        $.get(
+            $(this).attr('href'),
+            function(data) {
+                if (data.item_count > 0) {
+                    $('.i_count[data-item="'+$(that).data('item')+'"]').text(data.item_count)
+                    $('.i_summary[data-item="'+$(that).data('item')+'"]').text(data.item_summary)
+                } else {
+                    $('.i_count[data-item="'+$(that).data('item')+'"]').parents('.basket-item').remove()
+                }
+                bt.text(data.basket_total)
+                sm.text(data.basket_summary)
+            },
+        )
+    })
+})
+</script>
 
 {% endblock content %}
