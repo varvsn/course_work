@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ly#9v-c@tfx$!54oleowj#gq-8r_$94-85mw2c8%t87fgw#g+^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['192.168.101.254', 'fors-shop-test.interaxions.ru']
+ALLOWED_HOSTS = ['192.168.101.254', 'fors-shop.interaxions.ru']
 
 #def show_toolbar(request):
 #    return True
