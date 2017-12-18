@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/static/css/font-awesome.min.css" />
     <link rel="stylesheet" href="/static/css/sticky-footer.css" />
     <link rel="stylesheet" href="/static/css/mdb.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
 
 <body>
@@ -25,7 +26,7 @@
             {% else %}
                 <div class="float-right">
                     Hello, <b>{{ user }}</b> You can <a class="badge badge-danger" href="/logout">logout</a> any time
-                    <p>Your basket: <a href="/checkout" class="fa fa-shopping-basket badge badge-warning" aria-hidden="true">  {{ total_count }} items</a></p>
+                    <p>Your basket: <a href="/checkout" class="fa fa-shopping-basket badge badge-warning" aria-hidden="true"> <span class="basket_total">{{ total_count }}</span> items</a></p>
                     <p>Manage your orders <a class="badge badge-info" href="/lk">here</a></p>
                 </div>
 {# {{ basket_goods|length }} #}
@@ -42,7 +43,6 @@
         <span class="text-muted">&copy; 2048 Fors, Inc.</span>
     </div>
 </footer>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="/static/js/popper.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
 <script src="/static/js/mdb.min.js"></script>

@@ -5,6 +5,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 #from django.contrib.auth.forms import UserCreationForm - switched to my app RegistrationForm
 from .help_functions import count_items
 import datetime
+from django.http import JsonResponse
 
 from my_app.forms import Shop_Form, RegistrationForm
 from my_app.models import Shop_Item, UsersAndOrders, Orders
@@ -22,7 +23,6 @@ def index(request):
             items = paginator.page(1)
         except EmptyPage:
             items = paginator.page(paginator.num_pages)
-
 
         return render(request, 'index.html', {'items': items, 'basket_goods': basket, 'total_count': count_items(basket)})
 
@@ -54,20 +54,35 @@ def add_to_basket(request, item_id):
 
 def ajax_add_item(request, item_id):
     construct_basket(request, item_id, '+')
-    return render(request, 'basket.html', {
-                                  'new_basket': request.session['checkout'],
-                                  'total_count': count_items(request.session.get('basket', {})),
-                                  'total_price': request.session['total_price'],
-                                  })
+    items = [a for a in request.session['checkout'] if a['id'] == int(item_id)]
+    return JsonResponse({
+                    'basket_total': count_items(request.session.get('basket', {})),
+                    'basket_summary': request.session['total_price'],
+                    'item_count': items[0]['count'],
+                    'item_summary': items[0]['summary'],
+                     })
+#    return render(request, 'basket.html', {
+#                                  'new_basket': request.session['checkout'],
+#                                  'total_count': count_items(request.session.get('basket', {})),
+#                                  'total_price': request.session['total_price'],
+#                                  })
 
 
 def ajax_del_item(request, item_id):
     construct_basket(request, item_id, '-')
-    return render(request, 'basket.html', {
-                                  'new_basket': request.session['checkout'],
-                                  'total_count': count_items(request.session.get('basket', {})),
-                                  'total_price': request.session['total_price'],
-                                  })
+    items = [a for a in request.session['checkout'] if a['id'] == int(item_id)]
+    return JsonResponse({
+                    'basket_total': count_items(request.session.get('basket', {})),
+                    'basket_summary': request.session['total_price'],
+                    'item_count': items[0]['count'] if len(items) > 0 else 0,
+                    'item_summary': items[0]['summary'] if len(items) > 0 else 0,
+                     })
+
+#    return render(request, 'basket.html', {
+#                                  'new_basket': request.session['checkout'],
+#                                  'total_count': count_items(request.session.get('basket', {})),
+#                                  'total_price': request.session['total_price'],
+#                                  })
 
 
 
@@ -83,6 +98,10 @@ def checkout(request):
 
 def buy(request):
     if request.user.is_authenticated:
+        if len(request.session['checkout']) == 0:
+            messages.warning(request, 'Your basket is empty!')
+            return render(request, 'flash_page.html', {'total_count': 0})
+
         try:
             with transaction.atomic():
                 user_order = UsersAndOrders(user_id = request.user.id,
@@ -132,7 +151,6 @@ def view_item(request, item_id):
     basket = request.session.get('basket', {})
     item = Shop_Item.objects.get(pk=item_id)
     return render(request, 'item_details.html', {'item': item, 'total_count': count_items(basket)})
-
 
 
 def del_all(request):
