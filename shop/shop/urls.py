@@ -45,6 +45,7 @@ urlpatterns = [
     url(r'^checkout/$', checkout, name='checkout'),
     url(r'^buy/$', buy, name='buy'),
 
+    url(r'^oauth/', include('social_django.urls', namespace='social'))
 ]
 
 if settings.DEBUG:

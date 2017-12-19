@@ -53,15 +53,20 @@ def add_to_basket(request, item_id):
 
 
 def ajax_add_item(request, item_id):
-    construct_basket(request, item_id, '+')
-    items = [a for a in request.session['checkout'] if a['id'] == int(item_id)]
-    return JsonResponse({
-                    'basket_total': count_items(request.session.get('basket', {})),
-                    'basket_summary': request.session['total_price'],
-                    'item_count': items[0]['count'],
-                    'item_summary': items[0]['summary'],
-                     })
-#    return render(request, 'basket.html', {
+    if request.user.is_authenticated:
+        construct_basket(request, item_id, '+')
+        items = [a for a in request.session['checkout'] if a['id'] == int(item_id)]
+        return JsonResponse({
+                        'basket_total': count_items(request.session.get('basket', {})),
+                        'basket_summary': request.session['total_price'],
+                        'item_count': items[0]['count'],
+                        'item_summary': items[0]['summary'],
+                         })
+    else:
+        messages.warning(request, "You need to login before buying something!")
+        return render(request, 'flash_page.html')
+
+#        return render(request, 'basket.html', {
 #                                  'new_basket': request.session['checkout'],
 #                                  'total_count': count_items(request.session.get('basket', {})),
 #                                  'total_price': request.session['total_price'],
@@ -69,14 +74,18 @@ def ajax_add_item(request, item_id):
 
 
 def ajax_del_item(request, item_id):
-    construct_basket(request, item_id, '-')
-    items = [a for a in request.session['checkout'] if a['id'] == int(item_id)]
-    return JsonResponse({
-                    'basket_total': count_items(request.session.get('basket', {})),
-                    'basket_summary': request.session['total_price'],
-                    'item_count': items[0]['count'] if len(items) > 0 else 0,
-                    'item_summary': items[0]['summary'] if len(items) > 0 else 0,
-                     })
+    if request.user.is_authenticated:
+        construct_basket(request, item_id, '-')
+        items = [a for a in request.session['checkout'] if a['id'] == int(item_id)]
+        return JsonResponse({
+                        'basket_total': count_items(request.session.get('basket', {})),
+                        'basket_summary': request.session['total_price'],
+                        'item_count': items[0]['count'] if len(items) > 0 else 0,
+                        'item_summary': items[0]['summary'] if len(items) > 0 else 0,
+                         })
+    else:
+        messages.warning(request, "You need to login before buying something!")
+        return render(request, 'flash_page.html')
 
 #    return render(request, 'basket.html', {
 #                                  'new_basket': request.session['checkout'],
@@ -87,12 +96,16 @@ def ajax_del_item(request, item_id):
 
 
 def checkout(request):
-    construct_basket(request)
-    return render(request, 'basket.html', {
-                                  'new_basket': request.session['checkout'],
-                                  'total_count': count_items(request.session.get('basket', {})),
-                                  'total_price': request.session['total_price'],
-                                  })
+    if request.user.is_authenticated:
+        construct_basket(request)
+        return render(request, 'basket.html', {
+                                      'new_basket': request.session['checkout'],
+                                      'total_count': count_items(request.session.get('basket', {})),
+                                      'total_price': request.session['total_price'],
+                                      })
+    else:
+        messages.warning(request, "You need to login before buying something!")
+        return render(request, 'flash_page.html')
 
 
 
@@ -130,7 +143,7 @@ def buy(request):
                 return render(request, 'flash_page.html')
 
         except IntegrityError:
-            messages.warning(request, "Order id: {} was not saved properly! Contact Ded Moroz".format(order))
+            messages.warning(request, "Order was not saved properly! Contact Ded Moroz")
             return render(request, 'flash_page.html')
     else:
         messages.warning(request, "You need to login before!")

@@ -58,6 +58,7 @@ INSTALLED_APPS = [
 #####
     'my_app',
     'widget_tweaks',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -72,6 +73,7 @@ MIDDLEWARE = [
 #    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'shop.urls'
@@ -88,6 +90,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -107,6 +111,17 @@ DATABASES = {
     }
 }
 
+AUTHENTICATION_BACKENDS = (
+#    'social_core.backends.open_id.OpenIdAuth',
+#    'social_core.backends.google.GoogleOpenId',
+#    'social_core.backends.google.GoogleOAuth2',
+#    'social_core.backends.google.GoogleOAuth',
+#    'social_core.backends.twitter.TwitterOAuth',
+    'social.backends.facebook.FacebookAppOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -125,6 +140,16 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+SOCIAL_AUTH_FACEBOOK_KEY = '100360457428694'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'ee8d486cdc77f4bdf89940efb5f7cb33'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+  'locale': 'ru_RU',
+  'fields': 'id, name, email'
+}
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
 
 
 # Internationalization
