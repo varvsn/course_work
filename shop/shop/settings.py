@@ -48,7 +48,7 @@ EMAIL_USE_TLS = True
 # Application definition
 
 INSTALLED_APPS = [
-    'bootstrap_admin',
+    'xadmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
