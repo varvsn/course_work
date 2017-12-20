@@ -175,7 +175,7 @@ MEDIA_ROOT = '/var/www/fors/course_work/shop/my_app/static/media/'
 
 #STATIC_URL = '/course_work/shop/my_app/static/'
 STATIC_URL = '/static/'
-STATIC_ROOT = '/var/www/fors/course_work-test/shop/my_app/static'
+STATIC_ROOT = '/var/www/fors/course_work/shop/my_app/static'
 
 LOGGING = {
     'version': 1,
