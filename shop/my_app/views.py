@@ -6,6 +6,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .help_functions import count_items
 import datetime
 from django.http import JsonResponse
+#from django.core.serializers import serialize
 
 from my_app.forms import Shop_Form, RegistrationForm
 from my_app.models import Shop_Item, UsersAndOrders, Orders
@@ -23,7 +24,6 @@ def index(request):
             items = paginator.page(1)
         except EmptyPage:
             items = paginator.page(paginator.num_pages)
-
         return render(request, 'index.html', {'items': items, 'basket_goods': basket, 'total_count': count_items(basket)})
 
 

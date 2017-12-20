@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Shop_Item, UsersAndOrders, Orders
+from .models import Shop_Item, UsersAndOrders, Orders, ShopSettings
 
 
 class AllOrdersInline(admin.TabularInline):
@@ -30,4 +30,5 @@ class ShopItemExtend(admin.ModelAdmin):
 admin.site.register(Shop_Item, ShopItemExtend)
 admin.site.register(UsersAndOrders, OrdersAll)
 #admin.site.register(Orders)
+admin.site.register(ShopSettings)
 

@@ -54,6 +54,14 @@ class Orders(models.Model):
         return str(self.order_id)
 
 
+class ShopSettings(models.Model):
+    name = models.CharField(max_length=20)
+    value = models.CharField(max_length=100)
+    def save(self, **kwargs):
+        super(ShopSettings, self).save(**kwargs)
+
+    def __str__(self):
+        return str(self.name)
 
 
 

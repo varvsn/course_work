@@ -16,7 +16,7 @@
 <body>
 <div class="container">
     <div class="row bg-primary text-white">
-        <div class="col float-left"><h2>Welcome to SHOP</h2>
+        <div class="col float-left"><h2>Welcome to {{ settings.shop_name }}</h2>
             <a href="/"><img width="50" height="50" src="/static/img/ШОП.png" class="animated flip align-middle"></img></a>
             <span class="align-middle"><b>ОП</b></span>
         </div>
@@ -40,7 +40,7 @@
 </div>
 <footer class="footer">
     <div class="container">
-        <span class="text-muted">&copy; 2048 Fors, Inc.</span>
+        <span class="text-muted">&copy; {{ settings.shop_footer }}</span>
     </div>
 </footer>
 <script src="/static/js/popper.js"></script>
