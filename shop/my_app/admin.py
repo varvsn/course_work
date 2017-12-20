@@ -20,6 +20,10 @@ class ShopItemExtend(admin.ModelAdmin):
     search_fields = ('id', 'name', 'description', 'foreign_key__order')
     list_display_links = ('id', 'name')
     ordering = ['id', 'name']
+#    class Media:
+#        css = {
+#             'all': ('css/bootstrap.min.css',)
+#        }
 
 
 
