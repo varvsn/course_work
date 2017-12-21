@@ -37,3 +37,16 @@ class RegistrationForm(UserCreationForm):  #Add additional field - email, to bui
         return user
 
 
+class PerPageSelectForm(forms.Form):
+    def __init__(self,request,*args,**kwargs):
+        super (PerPageSelectForm,self).__init__(*args,**kwargs)
+        CHOICES = (('6', '6'),('12', '12'),('999', 'All'))
+        self.fields['item_per_page'] = forms.CharField(
+                                                       initial = request.session.get('item_per_page', 6),
+                                                       widget=forms.Select(
+                                                                           choices=CHOICES,
+                                                                           attrs={'class': 'custom-select', 
+                                                                                  'onchange': 'this.form.submit()'
+                                                                                 }
+                                                                          )
+                                                      )

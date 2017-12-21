@@ -177,26 +177,26 @@ MEDIA_ROOT = '/var/www/fors/course_work/shop/my_app/static/media/'
 STATIC_URL = '/static/'
 STATIC_ROOT = '/var/www/fors/course_work/shop/my_app/static'
 
-LOGGING = {
-    'version': 1,
-    'filters': {
-        'require_debug_true': {
-            '()': 'django.utils.log.RequireDebugTrue',
-        }
-    },
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'filters': ['require_debug_true'],
-            'class': 'logging.StreamHandler',
-        }
-    },
-    'loggers': {
-        'django.db.backends': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-        }
-    }
-}
+#LOGGING = {
+#    'version': 1,
+#    'filters': {
+#        'require_debug_true': {
+#            '()': 'django.utils.log.RequireDebugTrue',
+#        }
+#    },
+#    'handlers': {
+#        'console': {
+#            'level': 'DEBUG',
+#            'filters': ['require_debug_true'],
+#            'class': 'logging.StreamHandler',
+#        }
+#    },
+#    'loggers': {
+#        'django.db.backends': {
+#            'level': 'DEBUG',
+#            'handlers': ['console'],
+#        }
+#    }
+#}
 
 #QUERY_INSPECT_ENABLED = True

@@ -7,9 +7,15 @@
     {% include 'item-card.html' %}
 {% endfor %}
 </div>
+<hr>
+Items per page
+<form action="set/" method="POST">
+    {% csrf_token %}
+    {{select.item_per_page }}
+</form>
+
 
 {% if items.has_other_pages %}
-<hr>
 <nav aria-label="...">
   <ul class="pagination justify-content-center">
     {% if items.has_previous %}

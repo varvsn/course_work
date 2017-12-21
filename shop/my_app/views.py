@@ -6,25 +6,35 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .help_functions import count_items
 import datetime
 from django.http import JsonResponse
-#from django.core.serializers import serialize
 
-from my_app.forms import Shop_Form, RegistrationForm
+from my_app.forms import Shop_Form, RegistrationForm, PerPageSelectForm
 from my_app.models import Shop_Item, UsersAndOrders, Orders
+
+
+def user_session_settings(request, item_per_page=6):
+    if request.method == 'POST':
+        if request.POST.get('item_per_page', '') in ['6', '12', '999']:
+            request.session['item_per_page'] = request.POST.get('item_per_page')
+            return redirect('index')
+        else:
+            return redirect('index')
 
 
 def index(request):
     if request.method == 'GET':
+        select_per_page = PerPageSelectForm(request)
         basket = request.session.get('basket', {})
         items_list = Shop_Item.objects.order_by('created_date')
         page = request.GET.get('page', 1)
-        paginator = Paginator(items_list, 6)
+        item_per_page = request.session.get('item_per_page', '6')
+        paginator = Paginator(items_list, item_per_page)
         try:
             items = paginator.page(page)
         except PageNotAnInteger:
             items = paginator.page(1)
         except EmptyPage:
             items = paginator.page(paginator.num_pages)
-        return render(request, 'index.html', {'items': items, 'basket_goods': basket, 'total_count': count_items(basket)})
+        return render(request, 'index.html', {'items': items, 'basket_goods': basket, 'total_count': count_items(basket), 'select': select_per_page})
 
 
 def register(request):

@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.contrib.auth import views as auth_views
 
-from my_app.views import index, register, add_to_basket, checkout, buy, lk, view_item, ajax_add_item, ajax_del_item,  del_all
+from my_app.views import index, register, add_to_basket, checkout, buy, lk, view_item, ajax_add_item, ajax_del_item, del_all, user_session_settings
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -45,7 +45,8 @@ urlpatterns = [
     url(r'^checkout/$', checkout, name='checkout'),
     url(r'^buy/$', buy, name='buy'),
 
-    url(r'^oauth/', include('social_django.urls', namespace='social'))
+    url(r'^oauth/', include('social_django.urls', namespace='social')),
+    url(r'^set/', user_session_settings, name = 'user_session_settings'),
 ]
 
 if settings.DEBUG:

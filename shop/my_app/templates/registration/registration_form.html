@@ -11,7 +11,37 @@
     {{form.as_ul}}
     <input type="submit" class="btn btn-info" value="Register" />
     </form>
-</div>
 
-<a href="{% url "social:begin" backend="facebook-oauth2" %}">Facebook (НЕ РАБОТАЕТ)</a>
+
+<div>
+<input type="text" name="password" id="password" size="40" title="Password" class="required" >
+<button id="password_rand" onclick="randPasword( 50, 'password' );"  class="btn btn-success" style="margin-left: -5px;">
+                        <i>Generate HELL password</i>
+                    </span></div>
+
+</div>
+<script>
+function randomPassword( pwdLength )
+    {
+        var charSet = "0123456789abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        var password = '';
+        while( true )
+        {
+            for( var x = 0; x < pwdLength; x++ )
+                password += charSet.charAt( Math.floor( Math.random() * charSet.length ) );
+
+            if ( (password.search('[a-z]') != -1) && (password.search('[A-Z]') != -1) && (password.search('[0-9]') != -1) )
+                return password;
+        }
+    }
+
+function randPasword( len, id )
+{
+    $( '#' + id ).val( randomPassword( len ) );
+    $( '#' + id ).trigger( 'blur' );
+}
+</script>
+
+
+<a href="{% url "social:begin" backend="facebook-oauth2" %}">Or login via Facebook (НЕ РАБОТАЕТ)</a>
 {% endblock %}
