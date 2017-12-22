@@ -8,7 +8,7 @@ class AllOrdersInline(admin.TabularInline):
 
 class OrdersAll(admin.ModelAdmin):
     list_display = ('id', 'order_date', 'comment', 'total_sum',)
-    search_fields = ('id', 'order_date')
+    search_fields = ('id', 'order_date', 'total_sum')
     ordering = ['id']
 #    readonly_fields = ('total_sum',)
     inlines = [
@@ -17,7 +17,7 @@ class OrdersAll(admin.ModelAdmin):
 
 class ShopItemExtend(admin.ModelAdmin):
     list_display = ('id', 'name', 'description', 'price', 'stock', 'created_date')
-    search_fields = ('id', 'name', 'description', 'foreign_key__order')
+    search_fields = ('id', 'name', 'description')
     list_display_links = ('id', 'name')
     ordering = ['id', 'name']
 #    class Media:
