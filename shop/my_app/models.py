@@ -7,6 +7,7 @@ class Shop_Item(models.Model):
     features = models.CharField(max_length=2000, blank=True, null=True)
     price = models.IntegerField()
     created_date = models.DateTimeField(default=timezone.now)
+    stock = models.IntegerField()
     image = models.ImageField()
     image_add1 = models.ImageField()
     image_add2 = models.ImageField()
@@ -14,6 +15,9 @@ class Shop_Item(models.Model):
 
     class Meta:
         verbose_name = 'All shop item'
+
+    def save(self, **kwargs):
+        super(Shop_Item, self).save(**kwargs)
 
     def __str__(self):
         return self.name

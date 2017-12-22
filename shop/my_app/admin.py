@@ -16,7 +16,7 @@ class OrdersAll(admin.ModelAdmin):
     ]
 
 class ShopItemExtend(admin.ModelAdmin):
-    list_display = ('id', 'name', 'description', 'price', 'created_date')
+    list_display = ('id', 'name', 'description', 'price', 'stock', 'created_date')
     search_fields = ('id', 'name', 'description', 'foreign_key__order')
     list_display_links = ('id', 'name')
     ordering = ['id', 'name']

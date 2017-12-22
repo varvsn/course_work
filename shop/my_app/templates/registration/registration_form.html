@@ -31,6 +31,8 @@ function randomPassword( pwdLength )
                 password += charSet.charAt( Math.floor( Math.random() * charSet.length ) );
 
             if ( (password.search('[a-z]') != -1) && (password.search('[A-Z]') != -1) && (password.search('[0-9]') != -1) )
+                document.getElementById('id_password1').value = password
+                document.getElementById('id_password2').value = password
                 return password;
         }
     }

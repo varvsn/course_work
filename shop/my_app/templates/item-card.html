@@ -8,7 +8,12 @@
             <h3 class="card-title"><a href="item/{{item.id}}">{{ item.name }}</a></h3>
             <p class="card-text">Description: {{ item.description }}</p>
             <p class="card-text">Price: {{ item.price }} RUB</p>
-            <a class="btn btn-primary btn-lg btn-block" href="add_to_basket/{{item.id}}">BUY</a>
+            <p class="card-text">In stock: {{ item.stock }} pcs.</p>
+            {% if item.stock > 0%}
+                <a class="btn btn-primary btn-lg btn-block" href="add_to_basket/{{item.id}}">BUY</a>
+            {% else %}
+                <p class="badge badge-danger">NOT AVAILABLE FOR ORDER</p>
+            {% endif %}
         </div>
     </div><br>
 </div>

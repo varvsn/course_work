@@ -127,13 +127,20 @@ def buy(request):
 
         try:
             with transaction.atomic():
+                basket = request.session.get('basket', {})
+                items = Shop_Item.objects.filter(id__in=basket.keys())
+                for item_shop in items:  #Проверяем, есть ли данное кол-во заказа на складе
+                    if basket[str(item_shop.id)] > item_shop.stock:
+                        messages.error(request, "You try to buy more {} than we have in stock, sorry".format(item_shop.name))
+                        return render(request, 'flash_page.html')
+                #Сохраняем сам заказ
                 user_order = UsersAndOrders(user_id = request.user.id,
                                       order_date=datetime.datetime.now(),
                                       comment = 'No comment',
                                       total_sum = request.session['total_price'],
                                       )
                 user_order.save()
-
+                #Сохраняем позиции в заказе
                 current_order_id = user_order.pk  #Take this saved order number
                 for checkouts in request.session['checkout']:
                     detail_order = Orders(order_id = current_order_id,
@@ -143,7 +150,10 @@ def buy(request):
                                         total_count = checkouts['count'],
                                         ordered_date = datetime.datetime.now()
                                         )
+                    item_stock = Shop_Item.objects.get(id = checkouts['id'])
+                    item_stock.stock = item_shop.stock - basket[str(item_shop.id)]  #Обновляем сток по товару в позиции
                     detail_order.save()
+                    item_stock.save()
 
                 messages.success(request, "Order id: {} saved!".format(current_order_id))
                 messages.success(request, "Thanks for buying in the SHOP!")
@@ -152,8 +162,8 @@ def buy(request):
                 del request.session['checkout']
                 return render(request, 'flash_page.html')
 
-        except IntegrityError:
-            messages.warning(request, "Order was not saved properly! Contact Ded Moroz")
+        except IntegrityError as e:
+            messages.warning(request, "Order was not saved properly! Contact Ded Moroz {}".format(e))
             return render(request, 'flash_page.html')
     else:
         messages.warning(request, "You need to login before!")
