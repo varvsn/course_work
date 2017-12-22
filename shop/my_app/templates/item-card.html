@@ -12,7 +12,7 @@
             {% if item.stock > 0%}
                 <a class="btn btn-primary btn-lg btn-block" href="add_to_basket/{{item.id}}">BUY</a>
             {% else %}
-                <p class="badge badge-danger">NOT AVAILABLE FOR ORDER</p>
+                <p class="badge badge-danger disabled">NOT AVAILABLE FOR ORDER</p>
             {% endif %}
         </div>
     </div><br>
